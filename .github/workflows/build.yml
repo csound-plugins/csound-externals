@@ -38,9 +38,8 @@ jobs:
           cmake -DSKIP_FAST_MATH=True ..
           make -j4
           ls
-          # ARCHIVE=$PACKAGENAME--${{matrix.os}}.zip
           ARCHIVE=$PACKAGENAME--macos.zip
-          7z a $ARCHIVE *.dylib
+          7z a $ARCHIVE $(ls -1 "*/*.so")
           7z a $ARCHIVE ../assets/README.txt
           7z l $ARCHIVE
           mkdir -p ../artifacts
@@ -69,8 +68,9 @@ jobs:
           cmake ..
           make -j4
           ls
-          ARCHIVE=csound-plugins--linux.zip
-          7z a $ARCHIVE *.so
+          ARCHIVE=$PACKAGENAME--linux.zip
+          sofiles=$(ls -1 */*.so)
+          7z a $ARCHIVE "$sofiles"
           7z a $ARCHIVE ../assets/README.txt
           7z l $ARCHIVE
           mkdir -p ../artifacts
@@ -120,8 +120,6 @@ jobs:
 
           mkdir build-windows
           cd build-windows
-
-          # cmake -A x64 -DBUILD_JSUSFX_OPCODES=OFF -DCMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows ..
 
           echo "Listing VCPKG_ROOT: $env:VCPKG_ROOT"
           ls "$VCPKG_ROOT" -recurse
