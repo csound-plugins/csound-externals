@@ -59,7 +59,9 @@ jobs:
 
           cd csound/include
           ln -s ../Android/CsoundAndroid/jni/version.h .
+          ls
           cd ../..
+          tree
 
           rm -fr build-linux
           mkdir build-linux
