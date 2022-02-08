@@ -13,12 +13,12 @@
   "repository": "https://github.com/csound/plugins",
   "binaries": {
     "linux": {
-      "url": "https://github.com/csound-plugins/csound-externals/releases/v${version}/csound-externals--linux.zip",
+      "url": "https://github.com/csound-plugins/csound-externals/releases/download/v${version}/csound-externals--linux.zip",
       "extractpath": "libchua.so",
       "build_platform": "Ubuntu-latest"
     },
     "macos": {
-      "url": "https://github.com/csound-plugins/csound-externals/releases/v${version}/csound-externals--linux.zip",
+      "url": "https://github.com/csound-plugins/csound-externals/releases/download/v${version}/csound-externals--linux.zip",
       "extractpath": "libchua.dylib",
       "build_platform": "macos-latest"
     }
