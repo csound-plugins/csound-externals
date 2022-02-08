@@ -199,7 +199,11 @@ endfunction(check_deps)
 # NB - this was moved here as it needs some VARS defined above
 # for setting up the framework
 function(make_plugin libname srcs)
-    add_shared_library($(libname) $(srcs))
+	if(APPLE)
+    	add_library(${libname} SHARED ${srcs})
+    else()
+    	add_library(${libname} MODULE ${srcs})
+    endif()
     
     set(i 2)
     while( ${i} LESS ${ARGC} )
@@ -207,7 +211,7 @@ function(make_plugin libname srcs)
         math(EXPR i "${i}+1")
     endwhile()
 
-	target_include_directories(${libn} PRIVATE ${CMAKE_SOURCE_DIR}/csound/include)
+	target_include_directories(${libname} PRIVATE ${CMAKE_SOURCE_DIR}/csound/include)
    # set_target_properties(${libname} PROPERTIES
     #    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
      #   LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
