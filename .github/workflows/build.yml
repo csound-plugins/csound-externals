@@ -59,9 +59,10 @@ jobs:
 
           cd csound/include
           ln -s ../Android/CsoundAndroid/jni/version.h .
-          ls
           cd ../..
-          tree
+
+          echo "--- Root dir ---"
+          ls
 
           rm -fr build-linux
           mkdir build-linux
@@ -69,7 +70,7 @@ jobs:
 
           cmake ..
           make -j4
-          ls
+          
           ARCHIVE=$PACKAGENAME--linux.zip
           sofiles=$(ls -1 */*.so)
           7z a $ARCHIVE "$sofiles"
