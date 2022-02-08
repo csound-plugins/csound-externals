@@ -14,12 +14,13 @@ set(APIVERSION "6.0")
 
 set(CMAKE_MACOSX_RPATH 1)
 set(CMAKE_VERBOSE_MAKEFILE ON)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
-"${CMAKE_SOURCE_DIR}/cmake/Modules/")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 find_package(CSOUND)
 if(NOT CSOUND_INCLUDE_DIRS)
-      message(FATAL_ERROR "Csound header files are required")
+    set(CSOUND_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/csound/include")
+    set(CSOUND_INCLUDE_DIRS ${CSOUND_INCLUDE_DIR})
+	message(STATUS "Csound does not seem to be installed, using ${CSOUND_INCLUDE_DIRS}")
 endif()
 
 include(TestBigEndian)
@@ -150,7 +151,7 @@ else()
     endif()
 endif()
 
-message("-- Csound headers: ${CSOUND_INCLUDE_DIR}")
+message("-- Csound headers: ${CSOUND_INCLUDE_DIRS}")
 if(APPLE)
    message("-- Csound framework: ${CSOUND_FRAMEWORK}")
 endif()
@@ -212,6 +213,7 @@ function(make_plugin libname srcs)
     endwhile()
 
 	target_include_directories(${libname} PRIVATE ${CMAKE_SOURCE_DIR}/csound/include)
+	
    # set_target_properties(${libname} PROPERTIES
     #    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
      #   LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
