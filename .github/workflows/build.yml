@@ -76,9 +76,16 @@ jobs:
           
           ARCHIVE=$PACKAGENAME--linux.zip
           sofiles=$(ls -1 */*.so)
+   
+          echo "--- Found .so files: "
+          echo "$sofiles"
+
+          echo "Creating archive $ARCHIVE"
+
           7z a $ARCHIVE "$sofiles"
-          7z a $ARCHIVE ../assets/README.txt
+          # 7z a $ARCHIVE ../assets/README.txt
           7z l $ARCHIVE
+          
           mkdir -p ../artifacts
           cp $ARCHIVE ../artifacts
           ls ../artifacts
