@@ -82,7 +82,7 @@ jobs:
 
           echo "Creating archive $ARCHIVE"
 
-          7z a $ARCHIVE "$sofiles"
+          7z a $ARCHIVE ./*/*.so
           # 7z a $ARCHIVE ../assets/README.txt
           7z l $ARCHIVE
           
