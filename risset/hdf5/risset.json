@@ -15,13 +15,13 @@
   "binaries": {
     "linux": {
       "url": "https://github.com/csound-plugins/csound-externals/releases/download/v${version}/csound-externals--linux.zip",
-      "extractpath": "libhdf5.so",
+      "extractpath": "libhdf5ops.so",
       "build_platform": "Ubuntu-latest",
       "post_install": "install-dependencies-linux.py"
     },
     "macos": {
       "url": "https://github.com/csound-plugins/csound-externals/releases/download/v${version}/csound-externals--linux.zip",
-      "extractpath": "libhdf5.dylib",
+      "extractpath": "libhdf5ops.dylib",
       "build_platform": "macos-latest",
       "post_install": "install-dependencies-macos.sh"
     }
