@@ -22,7 +22,9 @@ jobs:
           brew update
           
           # brew installs here
-          
+          # sudo apt-get install libsndfile1-dev libfluidsynth-dev libeigen3-dev fluid libhdf5-dev 
+          brew install libsndfile fluid-synth eigen fltk hdf5
+
           git submodule update --init --recursive --remote
           # git submodule foreach git pull origin master
           git submodule status --recursive
@@ -38,11 +40,19 @@ jobs:
 
           cmake -DSKIP_FAST_MATH=True ..
           make -j4
-          ls
+          
           ARCHIVE=$PACKAGENAME--macos.zip
-          7z a $ARCHIVE $(ls -1 "*/*.so")
-          7z a $ARCHIVE ../assets/README.txt
+          pluginfiles=$(ls -1 */*.dylib)
+   
+          echo "--- Found plugin files: "
+          echo "$pluginfiles"
+
+          echo "Creating archive $ARCHIVE"
+
+          7z a $ARCHIVE ./*/*.dylib
+          # 7z a $ARCHIVE ../assets/README.txt
           7z l $ARCHIVE
+          
           mkdir -p ../artifacts
           cp $ARCHIVE ../artifacts
           ls ../artifacts
