@@ -131,13 +131,12 @@ endif()
 if(USE_DOUBLE)
     message(STATUS "Building with 64-bit floats")
     if(APPLE)
-     set(PLUGIN_INSTALL_DIR
-       "$ENV{HOME}/Library/csound/${APIVERSION}/plugins64" CACHE PATH "Plugin install path")
+        set(PLUGIN_INSTALL_DIR
+            "$ENV{HOME}/Library/csound/${APIVERSION}/plugins64" CACHE PATH "Plugin install path")
     elseif(LINUX)
-      set(PLUGIN_INSTALL_DIR
-      "${LIBRARY_INSTALL_DIR}/csound/plugins64-${APIVERSION}")
-     elseif(WINDOWS)
-      set(PLUGIN_INSTALL_DIR "${env.LOCALAPPDATA}/csound/${APIVERSION}/plugins64")
+    	set(PLUGIN_INSTALL_DIR "$ENV{HOME}/.local/lib/csound/${APIVERSION}/plugins64")
+    elseif(WINDOWS)
+        set(PLUGIN_INSTALL_DIR "${env.LOCALAPPDATA}/csound/${APIVERSION}/plugins64")
     endif()
 else()
     message(STATUS "Building with 32-bit floats")
@@ -145,11 +144,10 @@ else()
         set(PLUGIN_INSTALL_DIR
     "$ENV{HOME}/Library/csound/${APIVERSION}/plugins" CACHE PATH "Plugin install path")
     elseif(LINUX)
-      set(PLUGIN_INSTALL_DIR
-      "${LIBRARY_INSTALL_DIR}/csound/plugins-${APIVERSION}")
-     elseif(WINDOWS)
-      set(PLUGIN_INSTALL_DIR "${env.LOCALAPPDATA}/csound/${APIVERSION}/plugins")
-      endif()
+        set(PLUGIN_INSTALL_DIR "$ENV{HOME}/.local/lib/csound/${APIVERSION}/plugins"
+    elseif(WINDOWS)
+        set(PLUGIN_INSTALL_DIR "${env.LOCALAPPDATA}/csound/${APIVERSION}/plugins")
+    endif()
 endif()
 
 message("-- Csound headers: ${CSOUND_INCLUDE_DIR}")
@@ -201,18 +199,15 @@ endfunction(check_deps)
 # NB - this was moved here as it needs some VARS defined above
 # for setting up the framework
 function(make_plugin libname srcs)
-    if(APPLE)
-        add_library(${libname} SHARED ${srcs})
-    else()
-        add_library(${libname} MODULE ${srcs})
-    endif()
-
+    add_shared_library($(libname) $(srcs))
+    
     set(i 2)
     while( ${i} LESS ${ARGC} )
         target_link_libraries(${libname} ${ARGV${i}})
         math(EXPR i "${i}+1")
     endwhile()
 
+	target_include_directories(${libn} PRIVATE ${CMAKE_SOURCE_DIR}/csound/include)
    # set_target_properties(${libname} PROPERTIES
     #    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
      #   LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
