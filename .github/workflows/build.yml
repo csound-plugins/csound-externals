@@ -29,6 +29,7 @@ jobs:
 
           cd csound/include
           ln -s ../Android/CsoundAndroid/jni/version.h .
+          ln -s ../Android/CsoundAndroid/jni/float-version.h .
           cd ../..
           
           rm -fr build-macos
