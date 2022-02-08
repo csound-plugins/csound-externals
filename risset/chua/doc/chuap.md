@@ -12,7 +12,7 @@ capable of bifurcation and chaotic attractors, with k-rate control of circuit el
 The oscillator can be driven into period bifurcation, and thus to chaos, because of the
 nonlinear response of the active resistor. 
 
-![](assets/chua-circuit.png)
+![](assets/chua_circuit.png)
 
 The circuit is described by a set of three ordinary differential equations called Chua's equations:
 
