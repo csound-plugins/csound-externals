@@ -84,7 +84,7 @@ jobs:
       - name: windows build
         if: runner.os == 'windows'
         run: |
-          vcpkg/bootstrap-vcpkg.bat
+          ${{ env.VCPKG_ROOT }}/bootstrap-vcpkg.bat
 
           # Copy-Item "csound/Android/CsoundAndroid/jni/version.h" -Destination "csound/include"
           # Copy-Item "csound/Android/CsoundAndroid/jni/float-version.h" -Destination "csound/include"
@@ -95,11 +95,13 @@ jobs:
           ls ${{ env.VCPKG_ROOT }}
 
           ${{ env.VCPKG_ROOT }}/vcpkg install eigen3:x64-windows --recurse
+          ${{ env.VCPKG_ROOT }}/vcpkg install hdf5:x64-windows
+
 
           Remove-Item -Recurse -Force build-windows -ErrorAction Ignore
           mkdir build-windows
           cd build-windows
-          cmake -A x64 -DBUILD_STK_OPCODES=OFF -DBUILD_JACK_OPCODES=OFF -DBUILD_FAUST_OPCODES=OFF -DBUILD_P5GLOVE_OPCODES=OFF -DBUILD_FLUID_OPCODES=OFF -DBUILD_PYTHON_OPCODES=OFF  \DCMAKE_TOOLCHAIN_FILE="${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows ..
+          cmake -A x64 -DBUILD_STK_OPCODES=OFF -DBUILD_JACK_OPCODES=OFF -DBUILD_FAUST_OPCODES=OFF -DBUILD_P5GLOVE_OPCODES=OFF -DBUILD_FLUID_OPCODES=OFF -DBUILD_PYTHON_OPCODES=OFF -DCMAKE_TOOLCHAIN_FILE="${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows ..
 
           echo "----------- Building -----------"
 
