@@ -33,7 +33,7 @@ jobs:
 
       - name: update submodules
         run: |
-          git submodule update --init --recursive --remote
+          git submodule update --init --recursive
           git submodule status --recursive
 
           echo "Finished submodules"
