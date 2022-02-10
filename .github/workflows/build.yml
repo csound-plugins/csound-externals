@@ -94,7 +94,7 @@ jobs:
           # vcpkg install
           ls ${{ env.VCPKG_ROOT }}
 
-          ${{ env.VCPKG_ROOT }}/vcpkg install eigen3:x64-windows
+          ${{ env.VCPKG_ROOT }}/vcpkg install eigen3:x64-windows --recurse
 
           Remove-Item -Recurse -Force build-windows -ErrorAction Ignore
           mkdir build-windows
