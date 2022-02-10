@@ -31,6 +31,21 @@ jobs:
         with:
           submodules: true
 
+      - name: update submodules
+        run: |
+          git submodule update --init --recursive --remote
+          git submodule status --recursive
+
+          echo "Finished submodules"
+
+      - name: update csound headers
+        run: |
+          cd csound/include
+          ln -s ../Android/CsoundAndroid/jni/version.h .
+          ln -s ../Android/CsoundAndroid/jni/float-version.h .
+          cd ../..
+
+
       - name: "Create directory '${{ env.VCPKG_DEFAULT_BINARY_CACHE }}'"
         run: mkdir -p $VCPKG_DEFAULT_BINARY_CACHE
         shell: bash
@@ -68,13 +83,10 @@ jobs:
       - name: windows build
         if: runner.os == 'windows'
         run: |
-          # git submodule update --init --recursive
-          # git submodule status --recursive
-          # echo "Finished submodules"
           vcpkg/bootstrap-vcpkg.bat
 
-          Copy-Item "csound/Android/CsoundAndroid/jni/version.h" -Destination "csound/include"
-          Copy-Item "csound/Android/CsoundAndroid/jni/float-version.h" -Destination "csound/include"
+          # Copy-Item "csound/Android/CsoundAndroid/jni/version.h" -Destination "csound/include"
+          # Copy-Item "csound/Android/CsoundAndroid/jni/float-version.h" -Destination "csound/include"
 
           # cmake --preset ninja-multi-vcpkg
 
@@ -125,14 +137,10 @@ jobs:
           # sudo apt-get install libsndfile1-dev libfluidsynth-dev libeigen3-dev fluid libhdf5-dev 
           brew install libsndfile fluid-synth eigen fltk hdf5
 
-          git submodule update --init --recursive --remote
-          # git submodule foreach git pull origin master
-          git submodule status --recursive
-
-          cd csound/include
-          ln -s ../Android/CsoundAndroid/jni/version.h .
-          ln -s ../Android/CsoundAndroid/jni/float-version.h .
-          cd ../..
+          # cd csound/include
+          # ln -s ../Android/CsoundAndroid/jni/version.h .
+          # ln -s ../Android/CsoundAndroid/jni/float-version.h .
+          # cd ../..
           
           rm -fr build-macos
           mkdir build-macos
@@ -167,16 +175,6 @@ jobs:
         run: |
           sudo apt-get install libsndfile1-dev libfluidsynth-dev libeigen3-dev fluid libhdf5-dev 
           
-          git submodule update --init --recursive --remote
-          git submodule foreach git pull origin master --rebase
-          git submodule status --recursive
-
-          cd csound/include
-          ln -s ../Android/CsoundAndroid/jni/version.h .
-          ln -s ../Android/CsoundAndroid/jni/float-version.h .
-
-          cd ../..
-
           echo "--- Root dir ---"
           ls
 
