@@ -1,0 +1,30 @@
+{
+  "name": "py",
+  "version": "0.1.0",
+  "opcodes": [
+    "hdf5read",
+    "hdf5write"
+  ],
+  "short_description": "Opcodes to interact with an embedded python interpreter",
+  "long_description": "Opcodes to interact with an embedded python interpreter. Python version: 3.9",
+  "csound_version": "6.17",
+  "author": "Maurizio Umberto Puxeddu, Michael Gogins",
+  "email": "?",
+  "license": "GPLv3",
+  "repository": "https://github.com/csound/plugins",
+  "dependencies": ["hdf5"],
+  "binaries": {
+    "linux": {
+      "url": "https://github.com/csound-plugins/csound-externals/releases/download/v${version}/csound-externals--linux.zip",
+      "extractpath": "libhdf5ops.so",
+      "build_platform": "Ubuntu-latest",
+      "post_install": "install-dependencies-linux.py"
+    },
+    "macos": {
+      "url": "https://github.com/csound-plugins/csound-externals/releases/download/v${version}/csound-externals--linux.zip",
+      "extractpath": "libhdf5ops.dylib",
+      "build_platform": "macos-latest",
+      "post_install": "install-dependencies-macos.sh"
+    }
+  }
+}
