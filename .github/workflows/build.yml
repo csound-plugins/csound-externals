@@ -76,7 +76,9 @@ jobs:
           # cmake --preset ninja-multi-vcpkg
 
           # vcpkg install
-          vcpkg/vcpkg install eigen3
+          ls ${{ env.VCPKG_ROOT }}
+
+          ${{ env.VCPKG_ROOT }}/vcpkg install eigen3
 
           Remove-Item -Recurse -Force build-windows -ErrorAction Ignore
           mkdir build-windows
