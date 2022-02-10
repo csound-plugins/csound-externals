@@ -71,6 +71,7 @@ jobs:
           # git submodule update --init --recursive
           # git submodule status --recursive
           # echo "Finished submodules"
+          vcpkg/bootstrap-vcpkg.bat
 
           Copy-Item "csound/Android/CsoundAndroid/jni/version.h" -Destination "csound/include"
           Copy-Item "csound/Android/CsoundAndroid/jni/float-version.h" -Destination "csound/include"
