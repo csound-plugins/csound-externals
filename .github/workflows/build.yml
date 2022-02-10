@@ -99,7 +99,7 @@ jobs:
           Remove-Item -Recurse -Force build-windows -ErrorAction Ignore
           mkdir build-windows
           cd build-windows
-          cmake -A x64 -DBUILD_STK_OPCODES=OFF -DBUILD_JACK_OPCODES=OFF -DBUILD_FAUST_OPCODES=OFF -DBUILD_P5GLOVE_OPCODES=OFF -DBUILD_FLUID_OPCODES=OFF -DBUILD_PYTHON_OPCODES=OFF  \DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows ..
+          cmake -A x64 -DBUILD_STK_OPCODES=OFF -DBUILD_JACK_OPCODES=OFF -DBUILD_FAUST_OPCODES=OFF -DBUILD_P5GLOVE_OPCODES=OFF -DBUILD_FLUID_OPCODES=OFF -DBUILD_PYTHON_OPCODES=OFF  \DCMAKE_TOOLCHAIN_FILE="${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows ..
 
           echo "----------- Building -----------"
 
