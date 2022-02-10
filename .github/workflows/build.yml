@@ -114,9 +114,8 @@ jobs:
         run: |
           sudo apt-get install libsndfile1-dev libfluidsynth-dev libeigen3-dev fluid libhdf5-dev 
           
-          
           git submodule update --init --recursive --remote
-          # git submodule foreach git pull origin master --rebase
+          git submodule foreach git pull origin master --rebase
           git submodule status --recursive
 
           cd csound/include
@@ -183,7 +182,7 @@ jobs:
 
           cmake --build --preset ninja-multi-vcpkg
 
-          tree
+          Tree /F
 
           #Remove-Item -Recurse -Force build-windows -ErrorAction Ignore
           #mkdir build-windows
