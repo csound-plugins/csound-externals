@@ -6,12 +6,13 @@
     "hdf5write"
   ],
   "short_description": "Read/Write signals and arrays to/from an hdf5 file",
-  "long_description": "Read/write signals and arrays from/to an hdf5 file",
+  "long_description": "Read/write signals and arrays from/to an hdf5 file. Depends on the hdf5 library being installed",
   "csound_version": "6.17",
   "author": "Edward Costello",
   "email": "?",
   "license": "GPLv3",
   "repository": "https://github.com/csound/plugins",
+  "dependencies": ["hdf5"],
   "binaries": {
     "linux": {
       "url": "https://github.com/csound-plugins/csound-externals/releases/download/v${version}/csound-externals--linux.zip",

@@ -8,12 +8,59 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        # os: [windows-2019, ubuntu-latest, macos-latest]
-        os: [ubuntu-latest, macos-latest]
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        # os: [ubuntu-latest, macos-latest]
+        include:
+          - os: windows-latest
+            triplet: x64-windows
+          - os: ubuntu-latest
+            triplet: x64-linux
+          - os: macos-latest
+            triplet: x64-osx
         # os: [windows-2019]
+
+    env:
+      # Indicates the location of the vcpkg as a Git submodule of the project repository.
+      VCPKG_ROOT: ${{ github.workspace }}/vcpkg
+      # Tells vcpkg where binary packages are stored.
+      VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg/bincache
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - uses: lukka/get-cmake@latest
+
+      - name: Restore vcpkg and its artifacts.
+        if: runner.os == 'windows'
+        uses: actions/cache@v2
+        with:
+          # The first path is the location of vcpkg: it contains the vcpkg executable and data files, as long as the
+          # built package archives (aka binary cache) which are located by VCPKG_DEFAULT_BINARY_CACHE env var.
+          # The other paths starting with '!' are exclusions: they contain termporary files generated during the build of the installed packages.
+          path: |
+            ${{ env.VCPKG_ROOT }}
+            !${{ env.VCPKG_ROOT }}/buildtrees
+            !${{ env.VCPKG_ROOT }}/packages
+            !${{ env.VCPKG_ROOT }}/downloads
+            !${{ env.VCPKG_ROOT }}/installed
+          # The key is composed in a way that it gets properly invalidated: this must happen whenever vcpkg's Git
+          # commit id changes, or the list of packages changes. In this case a cache miss must happen and a new
+          # entry with a new key with be pushed to GitHub the cache service.
+          # The key includes: hash of the vcpkg.json file, the hash of the vcpkg Git commit id, and the used
+          # vcpkg's triplet. The vcpkg's commit id would suffice, but computing an hash out it does not harm.
+          # Note: given a key, the cache content is immutable. If a cache entry has been created improperly,
+          # in order the recreate the right content the key must be changed as well, and it must be brand new
+          # (i.e. not existing already).
+          key: |
+            ${{ hashFiles( 'vcpkg.json' ) }}-${{ hashFiles( '.git/modules/vcpkg/HEAD' )}}-${{ matrix.triplet }}
+
+      # On Windows runners, let's ensure to have the Developer Command Prompt environment setup correctly.
+      # As used here the Developer Command Prompt created is targeting x64 and using the default the Windows SDK.
+      - uses: ilammy/msvc-dev-cmd@v1
+
 
       - name: macos build
         if: runner.os == 'macOS'
@@ -43,7 +90,11 @@ jobs:
           
           ARCHIVE=$PACKAGENAME--macos.zip
           pluginfiles=$(ls -1 */*.dylib)
-   
+
+          for f in */*.dylib; do
+              otool -L "$f"
+          done
+          
           echo "--- Found plugin files: "
           echo "$pluginfiles"
 
@@ -84,12 +135,17 @@ jobs:
           cmake ..
           make -j4
           
-          ARCHIVE=$PACKAGENAME--linux.zip
           sofiles=$(ls -1 */*.so)
    
           echo "--- Found .so files: "
           echo "$sofiles"
 
+          for f in */*.so; do
+            echo "ldd $f:"
+            ldd "$f"
+          done
+
+          ARCHIVE=$PACKAGENAME--linux.zip
           echo "Creating archive $ARCHIVE"
 
           7z a $ARCHIVE ./*/*.so
@@ -116,53 +172,39 @@ jobs:
       - name: windows build
         if: runner.os == 'windows'
         run: |
-          # where.exe vcpkg
-          # $VCPKG_ROOT/vcpkg integrate install
-          # vcpkg integrate install
-          # $VCPKG_ROOT/vcpkg install libsndfile:x64-windows
-
-          #vcpkg install libsndfile:x64-windows
-
-          choco install libsndfile
-          ls "${ENV:PROGRAMFILES}\libsndfile\include"
-
-                    
-          # choco install fluidsynth
-          
           git submodule update --init --recursive --remote
-          # git submodule foreach git pull origin master
           git submodule status --recursive
           echo "Finished submodules"
+
+          Copy-Item "csound/Android/CsoundAndroid/jni/version.h" -Destination "csound/include"
+          Copy-Item "csound/Android/CsoundAndroid/jni/float-version.h" -Destination "csound/include"
+
+          cmake --preset ninja-multi-vcpkg
+
+          cmake --build --preset ninja-multi-vcpkg
+
+          tree
+
+          #Remove-Item -Recurse -Force build-windows -ErrorAction Ignore
+          #mkdir build-windows
+          #cd build-windows
+
+          #cmake -A x64 -DBUILD_JSUSFX_OPCODES=OFF -DBUILD_SNDMETA_OPCODES=OFF \DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT\scripts\buildsystems\vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows ..
+          #cmake --build . --config Release
+          #ls Release
+
+          #rm -ErrorAction Ignore Release/FLAC.dll, Release/ogg.dll, Release/opus.dll, Release/sndfile.dll, Release/vorbis*
           
-          # Copy-Item "Android/CsoundAndroid/jni/version.h" -Destination "csound/include"
-          
-          ls
-
-          Remove-Item -Recurse -Force build-windows -ErrorAction Ignore
-
-
-          mkdir build-windows
-          cd build-windows
-
-          echo "Listing VCPKG_ROOT: $env:VCPKG_ROOT"
-          ls "$VCPKG_ROOT" -recurse
-
-          cmake -A x64 -DBUILD_JSUSFX_OPCODES=OFF -DBUILD_SNDMETA_OPCODES=OFF \DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT\scripts\buildsystems\vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows ..
-          cmake --build . --config Release
-          ls Release
-
-          rm -ErrorAction Ignore Release/FLAC.dll, Release/ogg.dll, Release/opus.dll, Release/sndfile.dll, Release/vorbis*
-          
-          set-variable -name ARCHIVE -value "csound-plugins--win64.zip"
-          rm $ARCHIVE -ErrorAction Ignore
-          7z a $ARCHIVE ./Release/*.dll
-          7z a $ARCHIVE ../assets/README.txt
-          7z l $ARCHIVE
-          if(!(Test-Path ../artifacts)) {  
-            New-Item -ItemType directory -Path ../artifacts
-          }
-          cp $ARCHIVE ../artifacts
-          ls ../artifacts
+          #set-variable -name ARCHIVE -value "csound-plugins--win64.zip"
+          #rm $ARCHIVE -ErrorAction Ignore
+          #7z a $ARCHIVE ./Release/*.dll
+          #7z a $ARCHIVE ../assets/README.txt
+          #7z l $ARCHIVE
+          #if(!(Test-Path ../artifacts)) {
+          #  New-Item -ItemType directory -Path ../artifacts
+          #}
+          #cp $ARCHIVE ../artifacts
+          #ls ../artifacts
 
       - uses: actions/upload-artifact@v2
         with:

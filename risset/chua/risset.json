@@ -15,12 +15,12 @@
     "linux": {
       "url": "https://github.com/csound-plugins/csound-externals/releases/download/v${version}/csound-externals--linux.zip",
       "extractpath": "libchua.so",
-      "build_platform": "Ubuntu-latest"
+      "build_platform": "Ubuntu-latest",
     },
     "macos": {
       "url": "https://github.com/csound-plugins/csound-externals/releases/download/v${version}/csound-externals--linux.zip",
       "extractpath": "libchua.dylib",
-      "build_platform": "macos-latest"
+      "build_platform": "macos-latest",
     }
   }
 }
