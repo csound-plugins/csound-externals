@@ -22,7 +22,7 @@ osname = get_os().lower()
 
 
 if osname.startswith("ubuntu") or osname.startswith("debian"):
-    s = "sudo apt-get -y install libhdf5-dev"
+    s = "sudo apt-get -y install python3.9"
 elif osname.startswith("fedora"):
     s = "sudo dnf -y install hdf5-devel"
 elif osname.startswith("centos"):

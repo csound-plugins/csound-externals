@@ -136,7 +136,7 @@ if(USE_DOUBLE)
             "$ENV{HOME}/Library/csound/${APIVERSION}/plugins64" CACHE PATH "Plugin install path")
     elseif(LINUX)
     	set(PLUGIN_INSTALL_DIR "$ENV{HOME}/.local/lib/csound/${APIVERSION}/plugins64")
-    elseif(WINDOWS)
+    elseif(WIN32)
         set(PLUGIN_INSTALL_DIR "${env.LOCALAPPDATA}/csound/${APIVERSION}/plugins64")
     endif()
 else()
@@ -146,7 +146,7 @@ else()
     "$ENV{HOME}/Library/csound/${APIVERSION}/plugins" CACHE PATH "Plugin install path")
     elseif(LINUX)
         set(PLUGIN_INSTALL_DIR "$ENV{HOME}/.local/lib/csound/${APIVERSION}/plugins")
-    elseif(WINDOWS)
+    elseif(WIN32)
         set(PLUGIN_INSTALL_DIR "${env.LOCALAPPDATA}/csound/${APIVERSION}/plugins")
     endif()
 endif()
@@ -213,12 +213,13 @@ function(make_plugin libname srcs)
     endwhile()
 
 	target_include_directories(${libname} PRIVATE ${CMAKE_SOURCE_DIR}/csound/include)
-	
-   # set_target_properties(${libname} PROPERTIES
-    #    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-     #   LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-      #  ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
+	
+    set_target_properties(${libname} PROPERTIES
+      RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+      LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+      #  ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+	
     install(TARGETS ${libname}
         LIBRARY DESTINATION "${PLUGIN_INSTALL_DIR}" 
         ARCHIVE DESTINATION "${PLUGIN_INSTALL_DIR}" )
