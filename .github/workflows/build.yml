@@ -176,7 +176,7 @@ jobs:
           Copy-Item "csound/Android/CsoundAndroid/jni/version.h" -Destination "csound/include"
           Copy-Item "csound/Android/CsoundAndroid/jni/float-version.h" -Destination "csound/include"
 
-          cmake --preset ninja-multi-vcpkg-release
+          cmake --preset ninja-multi-vcpkg
 
           cmake --build --preset ninja-multi-vcpkg-release
 
