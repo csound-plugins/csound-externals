@@ -180,9 +180,15 @@ jobs:
           Copy-Item "csound/Android/CsoundAndroid/jni/version.h" -Destination "csound/include"
           Copy-Item "csound/Android/CsoundAndroid/jni/float-version.h" -Destination "csound/include"
 
-          cmake --preset ninja-multi-vcpkg
+          # cmake --preset ninja-multi-vcpkg
 
-          cmake --build --preset ninja-multi-vcpkg-release
+          Remove-Item -Recurse -Force build-windows -ErrorAction Ignore
+          mkdir build-windows
+          cd build-windows
+          cmake -A x64 \DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows ..
+
+          cmake --build . --config Release
+          # cmake --build --preset ninja-multi-vcpkg-release
 
           Tree /F
 
@@ -190,7 +196,6 @@ jobs:
           #mkdir build-windows
           #cd build-windows
 
-          #cmake -A x64 -DBUILD_JSUSFX_OPCODES=OFF -DBUILD_SNDMETA_OPCODES=OFF \DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT\scripts\buildsystems\vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows ..
           #cmake --build . --config Release
           #ls Release
 
