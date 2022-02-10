@@ -85,6 +85,7 @@ jobs:
         if: runner.os == 'windows'
         run: |
           ${{ env.VCPKG_ROOT }}/bootstrap-vcpkg.bat
+          ${{ env.VCPKG_ROOT }}/vcpkg integrate install
 
           # Copy-Item "csound/Android/CsoundAndroid/jni/version.h" -Destination "csound/include"
           # Copy-Item "csound/Android/CsoundAndroid/jni/float-version.h" -Destination "csound/include"
@@ -95,7 +96,9 @@ jobs:
           ls ${{ env.VCPKG_ROOT }}
 
           # ${{ env.VCPKG_ROOT }}/vcpkg install eigen3:x64-windows --recurse
-          ${{ env.VCPKG_ROOT }}/vcpkg install hdf5:x64-windows
+          # ${{ env.VCPKG_ROOT }}/vcpkg install hdf5:x64-windows
+          ${{ env.VCPKG_ROOT }}/vcpkg install hdf5:x64-windows-static
+
 
 
           Remove-Item -Recurse -Force build-windows -ErrorAction Ignore
