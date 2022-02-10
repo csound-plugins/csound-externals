@@ -2,3 +2,6 @@
 	path = csound
 	url = https://github.com/csound/csound
 	branch = master
+[submodule "vcpkg"]
+	path = vcpkg
+	url = https://github.com/Microsoft/vcpkg
