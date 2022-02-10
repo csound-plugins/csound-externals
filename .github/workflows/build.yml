@@ -63,6 +63,52 @@ jobs:
       # As used here the Developer Command Prompt created is targeting x64 and using the default the Windows SDK.
       - uses: ilammy/msvc-dev-cmd@v1
 
+      - name: windows build
+        if: runner.os == 'windows'
+        run: |
+          git submodule update --init
+          git submodule status --recursive
+          echo "Finished submodules"
+
+          Copy-Item "csound/Android/CsoundAndroid/jni/version.h" -Destination "csound/include"
+          Copy-Item "csound/Android/CsoundAndroid/jni/float-version.h" -Destination "csound/include"
+
+          # cmake --preset ninja-multi-vcpkg
+
+          # vcpkg install
+          vcpkg/vcpkg install eigen3
+
+          Remove-Item -Recurse -Force build-windows -ErrorAction Ignore
+          mkdir build-windows
+          cd build-windows
+          cmake -A x64 -DBUILD_STK_OPCODES=OFF -DBUILD_JACK_OPCODES=OFF -DBUILD_FAUST_OPCODES=OFF -DBUILD_P5GLOVE_OPCODES=OFF -DBUILD_FLUID_OPCODES=OFF -DBUILD_PYTHON_OPCODES=OFF  \DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows ..
+
+          echo "----------- Building -----------"
+
+          cmake --build . --config Release
+          # cmake --build --preset ninja-multi-vcpkg-release
+
+          Tree /F
+
+          #Remove-Item -Recurse -Force build-windows -ErrorAction Ignore
+          #mkdir build-windows
+          #cd build-windows
+
+          #cmake --build . --config Release
+          #ls Release
+
+          #rm -ErrorAction Ignore Release/FLAC.dll, Release/ogg.dll, Release/opus.dll, Release/sndfile.dll, Release/vorbis*
+
+          #set-variable -name ARCHIVE -value "csound-plugins--win64.zip"
+          #rm $ARCHIVE -ErrorAction Ignore
+          #7z a $ARCHIVE ./Release/*.dll
+          #7z a $ARCHIVE ../assets/README.txt
+          #7z l $ARCHIVE
+          #if(!(Test-Path ../artifacts)) {
+          #  New-Item -ItemType directory -Path ../artifacts
+          #}
+          #cp $ARCHIVE ../artifacts
+          #ls ../artifacts
 
       - name: macos build
         if: runner.os == 'macOS'
@@ -170,57 +216,13 @@ jobs:
       #    vcpkgGitCommitId: "0bf3923f9fab4001c00f0f429682a0853b5749e0"
       #    # setupOnly: true
           
-      - name: windows build
-        if: runner.os == 'windows'
-        run: |
-          git submodule update --init
-          echo "Finished submodules"
 
-          Copy-Item "csound/Android/CsoundAndroid/jni/version.h" -Destination "csound/include"
-          Copy-Item "csound/Android/CsoundAndroid/jni/float-version.h" -Destination "csound/include"
-
-          # cmake --preset ninja-multi-vcpkg
-
-          # vcpkg install
-          vcpkg/vcpkg install eigen3
-
-          Remove-Item -Recurse -Force build-windows -ErrorAction Ignore
-          mkdir build-windows
-          cd build-windows
-          cmake -A x64 -DBUILD_STK_OPCODES=OFF -DBUILD_JACK_OPCODES=OFF -DBUILD_FAUST_OPCODES=OFF -DBUILD_P5GLOVE_OPCODES=OFF -DBUILD_FLUID_OPCODES=OFF -DBUILD_PYTHON_OPCODES=OFF  \DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows ..
-
-          echo "----------- Building -----------"
-
-          cmake --build . --config Release
-          # cmake --build --preset ninja-multi-vcpkg-release
-
-          Tree /F
-
-          #Remove-Item -Recurse -Force build-windows -ErrorAction Ignore
-          #mkdir build-windows
-          #cd build-windows
-
-          #cmake --build . --config Release
-          #ls Release
-
-          #rm -ErrorAction Ignore Release/FLAC.dll, Release/ogg.dll, Release/opus.dll, Release/sndfile.dll, Release/vorbis*
-          
-          #set-variable -name ARCHIVE -value "csound-plugins--win64.zip"
-          #rm $ARCHIVE -ErrorAction Ignore
-          #7z a $ARCHIVE ./Release/*.dll
-          #7z a $ARCHIVE ../assets/README.txt
-          #7z l $ARCHIVE
-          #if(!(Test-Path ../artifacts)) {
-          #  New-Item -ItemType directory -Path ../artifacts
-          #}
-          #cp $ARCHIVE ../artifacts
-          #ls ../artifacts
 
       - uses: actions/upload-artifact@v2
         with:
           name: plugins
           path: artifacts/*.zip
-  
+
   publish:           
     name: Publish artifacts as a Pre-Release
     # if: contains(github.ref, 'tags/v')
