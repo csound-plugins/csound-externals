@@ -1,8 +1,11 @@
 option(BUILD_HDF5_OPCODES "Build the hdf5 read/write opcodes" ON)
 
 if(BUILD_HDF5_OPCODES)
-    find_package(HDF5)
-
+	if(WIN32)
+    	find_package(hdf5 CONFIG)
+	else()
+		find_package(HDF5)
+	endif()
     if(HDF5_FOUND)
         # split version string, as cmake doesn't do this automatically
         string(REPLACE "." ";" VERSION_LIST ${HDF5_VERSION})
