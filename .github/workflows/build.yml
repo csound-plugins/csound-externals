@@ -179,7 +179,8 @@ jobs:
       - name: linux build
         if: runner.os == 'linux'
         run: |
-          sudo apt-get install libsndfile1-dev libfluidsynth-dev libeigen3-dev fluid libhdf5-dev 
+          sudo apt update
+          sudo apt-get install libsndfile1-dev libfluidsynth-dev libeigen3-dev libhdf5-dev # fluid
           
           echo "--- Root dir ---"
           ls
