@@ -2,7 +2,7 @@ option(BUILD_HDF5_OPCODES "Build the hdf5 read/write opcodes" ON)
 
 if(BUILD_HDF5_OPCODES)
 	if(WIN32)
-    	find_package(hdf5 CONFIG)
+    	find_package(hdf5 CONFIG NO_MODULE)
 	else()
 		find_package(HDF5)
 	endif()
