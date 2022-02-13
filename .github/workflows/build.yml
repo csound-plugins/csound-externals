@@ -96,8 +96,8 @@ jobs:
           ls ${{ env.VCPKG_ROOT }}
 
           # ${{ env.VCPKG_ROOT }}/vcpkg install eigen3:x64-windows --recurse
-          # ${{ env.VCPKG_ROOT }}/vcpkg install hdf5:x64-windows
-          ${{ env.VCPKG_ROOT }}/vcpkg install hdf5:x64-windows-static
+          ${{ env.VCPKG_ROOT }}/vcpkg install hdf5:x64-windows
+          # ${{ env.VCPKG_ROOT }}/vcpkg install hdf5:x64-windows-static
 
 
 
@@ -106,8 +106,6 @@ jobs:
           cd build-windows
 
           echo "vcpkg cmake toolchain: ${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake"
-
-          cat "${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake"
 
           cmake -A x64 -DBUILD_STK_OPCODES=OFF -DBUILD_JACK_OPCODES=OFF -DBUILD_FAUST_OPCODES=OFF -DBUILD_P5GLOVE_OPCODES=OFF -DBUILD_FLUID_OPCODES=OFF -DBUILD_PYTHON_OPCODES=OFF  .. -DCMAKE_TOOLCHAIN_FILE="${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows
 
