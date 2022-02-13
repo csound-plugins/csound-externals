@@ -2,6 +2,7 @@ option(BUILD_HDF5_OPCODES "Build the hdf5 read/write opcodes" ON)
 
 if(BUILD_HDF5_OPCODES)
 	if(WIN32)
+		message(STATUS "Toochain file: ${CMAKE_TOOLCHAIN_FILE}")
     	find_package(hdf5 CONFIG REQUIRED)
 	else()
 		find_package(HDF5)
