@@ -24,11 +24,7 @@ osname = get_os().lower()
 if osname.startswith("ubuntu") or osname.startswith("debian"):
     s = "sudo apt-get -y install python3.9"
 elif osname.startswith("fedora"):
-    s = "sudo dnf -y install hdf5-devel"
-elif osname.startswith("centos"):
-    s = "sudo dnf -y install hdf5-devel"
-elif osname.startswith("arch"):
-    s = "sudo pacman -Syu hdf5"
+    s = "sudo dnf -y install python3.9"
 else:
     print(f"Your operating system / distribution ({osname}) is not "
           "supported", file=sys.stderr)
