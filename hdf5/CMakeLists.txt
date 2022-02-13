@@ -2,6 +2,7 @@ option(BUILD_HDF5_OPCODES "Build the hdf5 read/write opcodes" ON)
 
 if(BUILD_HDF5_OPCODES)
 	if(WIN32)
+		set(HDF5_USE_STATIC_LIBRARIES TRUE)
 		message(STATUS "Toochain file: ${CMAKE_TOOLCHAIN_FILE}")
     	find_package(HDF5)
 	else()
