@@ -2,7 +2,7 @@
   "name": "py",
   "version": "0.1.0",
   "opcodes": [
-    "py",
+    "py"
   ],
   "short_description": "Opcodes to interact with an embedded python interpreter",
   "long_description": "Opcodes to interact with an embedded python interpreter. Python version: 3.9",
