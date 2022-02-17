@@ -100,7 +100,7 @@ jobs:
           mkdir build-macos
           cd build-macos
 
-          cmake -DSKIP_FAST_MATH=True ..
+          cmake -DUSE_DOUBLE=True -DSKIP_FAST_MATH=True ..
           make -j4
           
           ARCHIVE=$PACKAGENAME--macos.zip
@@ -137,8 +137,8 @@ jobs:
           mkdir build-linux
           cd build-linux
 
-          cmake ..
-          make -j4
+          cmake -DUSE_DOUBLE=True ..
+          make -j `nproc`
           
           sofiles=$(ls -1 */*.so)
    
