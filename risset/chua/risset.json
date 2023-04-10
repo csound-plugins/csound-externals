@@ -1,26 +1,30 @@
 {
-  "name": "chua",
-  "version": "0.1.0",
-  "opcodes": [
-    "chuap"
-  ],
-  "short_description": "Implementation of a Chua oscillator",
-  "long_description": "Opcodes simulating Chua's oscillator, proved capable of bifurcation and chaotic attractors",
-  "csound_version": "6.17",
-  "author": "Michael Gogins",
-  "email": "michael.gogins@gmail.com",
-  "license": "GPLv3",
-  "repository": "https://github.com/csound/plugins",
-  "binaries": {
-    "linux": {
-      "url": "https://github.com/csound-plugins/csound-externals/releases/download/v${version}/csound-externals--linux.zip",
-      "extractpath": "libchua.so",
-      "build_platform": "Ubuntu-latest"
-    },
-    "macos": {
-      "url": "https://github.com/csound-plugins/csound-externals/releases/download/v${version}/csound-externals--linux.zip",
-      "extractpath": "libchua.dylib",
-      "build_platform": "macos-latest"
-    }
-  }
+    "name": "chua",
+    "version": "0.1.0",
+    "opcodes": [
+        "chuap"
+    ],
+    "short_description": "Implementation of a Chua oscillator",
+    "long_description": "Opcodes simulating Chua's oscillator, proved capable of bifurcation and chaotic attractors",
+    "csound_version": "6.17",
+    "author": "Michael Gogins",
+    "email": "michael.gogins@gmail.com",
+    "license": "GPLv3",
+    "repository": "https://github.com/csound/plugins",
+    "binaries": [
+        {
+            "platform": "linux",
+            "url": "https://github.com/csound-plugins/csound-externals/releases/download/v${version}/csound-externals--linux.zip",
+            "extractpath": "libchua.so",
+            "build_platform": "Ubuntu-latest",
+            "csound_version": ">=6.18<7.0"
+        },
+        {
+            "platform": "macos",
+            "url": "https://github.com/csound-plugins/csound-externals/releases/download/v${version}/csound-externals--linux.zip",
+            "extractpath": "libchua.dylib",
+            "build_platform": "macos-latest",
+            "csound_version": ">=6.18<7.0"
+        }
+    ]
 }
