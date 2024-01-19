@@ -21,20 +21,11 @@
 #ifndef _pycsound_pythonhelper_h_
 #define _pycsound_pythonhelper_h_
 
-#ifdef _DEBUG
-# undef _DEBUG
 #ifdef __APPLE__
-#  include <Python/Python.h>
+// #  include <Python/Python.h>
+#  include <Python.h>
 #else
 #  include <Python.h>
-#endif
-# define _DEBUG
-#else
-#ifdef __APPLE__
-#  include <Python/Python.h>
-#else
-#  include <Python.h>
-#endif
 #endif
 
 /*

@@ -24,14 +24,17 @@
 #ifdef _DEBUG
 # undef _DEBUG
 #ifdef __APPLE__
-#  include <Python/Python.h>
+// #  include <Python/Python.h>
+#  include <Python.h>
 #else
 #  include <Python.h>
 #endif
 # define _DEBUG
 #else
+
 #ifdef __APPLE__
-#  include <Python/Python.h>
+// #  include <Python/Python.h>
+#  include <Python.h>
 #else
 #  include <Python.h>
 #endif
