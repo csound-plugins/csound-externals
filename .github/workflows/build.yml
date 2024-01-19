@@ -89,7 +89,7 @@ jobs:
           
           # brew installs here
           # sudo apt-get install libsndfile1-dev libfluidsynth-dev libeigen3-dev fluid libhdf5-dev 
-          brew install libsndfile fluid-synth eigen fltk hdf5 python@3.11
+          brew install libsndfile fluid-synth eigen fltk hdf5 
 
           # cd csound/include
           # ln -s ../Android/CsoundAndroid/jni/version.h .
