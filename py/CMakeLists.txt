@@ -11,6 +11,8 @@ if(${BUILD_PYTHON_OPCODES})
     
     if(BUILD_PYTHON_OPCODES)
     	message("-- Python version: ${Python3_VERSION}")
+    	file(GLOB Python3_INCLUDE_FILES ${Python3_INCLUDE_DIRS}/*)
+    	message("-- Show include dir: ${Python3_INCLUDE_FILES}")
 		make_plugin(py src/pythonopcodes.c)
 		target_include_directories(py PRIVATE ${CSOUND_INCLUDE_DIRS})
 		target_include_directories(py PRIVATE ${PYTHON_INCLUDE_DIRS})
