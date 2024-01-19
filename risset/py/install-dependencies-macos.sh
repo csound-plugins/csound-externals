@@ -6,4 +6,4 @@ then
     exit 1
 fi
 
-brew install python@3.9
+brew install python@3.10
