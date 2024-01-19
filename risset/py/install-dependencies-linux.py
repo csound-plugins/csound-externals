@@ -31,8 +31,8 @@ else:
     sys.exit(1)
 
 print()
-print("Installing dependencies for plugin hdf5")
-print("=======================================")
+print("Installing dependencies for plugin python")
+print("=========================================")
 print()
 print(s)
 subprocess.call(s, shell=True)
