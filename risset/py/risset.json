@@ -5,7 +5,7 @@
         "pyrun"
     ],
     "short_description": "Opcodes to interact with an embedded python interpreter",
-    "long_description": "Opcodes to interact with an embedded python interpreter. Python version: 3.9",
+    "long_description": "Opcodes to interact with an embedded python interpreter. Python versions: linux=3.10; macos=3.12; windows=??",
     "author": "Maurizio Umberto Puxeddu, Michael Gogins",
     "email": "?",
     "license": "GPLv3",

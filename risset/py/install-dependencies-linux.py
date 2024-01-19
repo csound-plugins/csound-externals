@@ -22,9 +22,9 @@ osname = get_os().lower()
 
 
 if osname.startswith("ubuntu") or osname.startswith("debian"):
-    s = "sudo apt-get -y install python3.9"
+    s = "sudo apt-get -y install python3.10"
 elif osname.startswith("fedora"):
-    s = "sudo dnf -y install python3.9"
+    s = "sudo dnf -y install python3.10"
 else:
     print(f"Your operating system / distribution ({osname}) is not "
           "supported", file=sys.stderr)
