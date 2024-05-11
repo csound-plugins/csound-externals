@@ -6,6 +6,14 @@ macos_arm64_develop_task:
   env: 
     CIRRUS_BRANCH: develop
 
+  update_headers_script:
+    - git submodule update --init --recursive
+    - git submodule status --recursive
+    - cd csound/include
+    - ln -s ../Android/CsoundAndroid/jni/version.h .
+    - ln -s ../Android/CsoundAndroid/jni/float-version.h .
+    - cd ../..
+    
   build_script: 
     - brew install libsndfile fluid-synth eigen fltk hdf5
     - mkdir build
