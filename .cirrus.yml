@@ -1,0 +1,17 @@
+macos_arm64_task:
+  name: Build macOS arm64
+  macos_instance:
+    image: ghcr.io/cirruslabs/macos-monterey-xcode
+
+  build_script: 
+    - brew install libsndfile fluid-synth eigen fltk hdf5
+    - mkdir build
+    - cd build
+    - cmake -DAPIVERSION="6.0" -DUSE_DOUBLE=True -DSKIP_FAST_MATH=True -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" ..          
+    - cmake --build . --parallel
+    - ls -l
+    - find . -name "*.dylib"
+    
+  upload_artifacts:
+    path: build/*.dylib
+    
