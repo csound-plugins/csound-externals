@@ -23,8 +23,16 @@
             "csound_version": ">=6.18<7.0"
         },
         {
-            "platform": "macos",
-            "url": "https://github.com/csound-plugins/csound-externals/releases/download/v${version}/csound-externals--linux.zip",
+            "platform": "macos-x86_64",
+            "url": "https://github.com/csound-plugins/csound-externals/releases/download/v${version}/csound-externals--macos.zip",
+            "extractpath": "libhdf5ops.dylib",
+            "build_platform": "macos-latest",
+            "post_install": "install-dependencies-macos.sh",
+            "csound_version": ">=6.18<7.0"
+        },
+        {
+            "platform": "macos-arm64",
+            "url": "https://github.com/csound-plugins/csound-externals/releases/download/v${version}/csound-externals--macos-arm64.zip",
             "extractpath": "libhdf5ops.dylib",
             "build_platform": "macos-latest",
             "post_install": "install-dependencies-macos.sh",
