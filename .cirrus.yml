@@ -1,7 +1,10 @@
-macos_arm64_task:
+macos_arm64_develop_task:
   name: Build macOS arm64
   macos_instance:
     image: ghcr.io/cirruslabs/macos-monterey-xcode
+
+  env: 
+    CIRRUS_BRANCH: develop
 
   build_script: 
     - brew install libsndfile fluid-synth eigen fltk hdf5
