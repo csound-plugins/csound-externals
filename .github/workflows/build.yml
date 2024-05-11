@@ -100,8 +100,8 @@ jobs:
           mkdir build-macos
           cd build-macos
 
-          cmake -DUSE_DOUBLE=True -DSKIP_FAST_MATH=True ..
-          cmake --build .
+          cmake -DAPIVERSION="6.0" -DUSE_DOUBLE=True -DSKIP_FAST_MATH=True -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" ..
+          cmake --build . --parallel
           
           ARCHIVE=$PACKAGENAME--macos.zip
           pluginfiles=$(ls -1 */*.dylib)
