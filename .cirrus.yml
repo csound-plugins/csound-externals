@@ -18,7 +18,7 @@ macos_arm64_develop_task:
     - brew install libsndfile fluid-synth eigen fltk hdf5
     - mkdir build
     - cd build
-    - cmake -DAPIVERSION="6.0" -DUSE_DOUBLE=True -DSKIP_FAST_MATH=True -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" ..          
+    - cmake -DAPIVERSION="6.0" -DUSE_DOUBLE=True -DSKIP_FAST_MATH=True -DCMAKE_OSX_ARCHITECTURES="arm64" ..          
     - cmake --build . --parallel
     - ls -l
     - find . -name "*.dylib"
