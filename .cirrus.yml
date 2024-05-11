@@ -22,9 +22,9 @@ macos_arm64_develop_task:
     - cmake --build . --parallel
     - ls -l
     - find . -name "*.dylib"
-    - mkdir -p plugins-macos-arm64
-    - cp */*.dylib plugins-macos-arm64
+    - mkdir -p ../plugins-macos-arm64
+    - cp */*.dylib ../plugins-macos-arm64
     
   plugins-macos-arm64_artifacts:
-    path: build/plugins-macos-arm64/*.dylib
+    path: plugins-macos-arm64/*.dylib
     
