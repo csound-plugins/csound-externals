@@ -100,7 +100,8 @@ jobs:
           mkdir build-macos
           cd build-macos
 
-          cmake -DAPIVERSION="6.0" -DUSE_DOUBLE=True -DSKIP_FAST_MATH=True -DCMAKE_OSX_ARCHITECTURES="x86_64" ..
+          # cmake -DAPIVERSION="6.0" -DUSE_DOUBLE=True -DSKIP_FAST_MATH=True -DCMAKE_OSX_ARCHITECTURES="x86_64" ..
+          cmake -DAPIVERSION="6.0" -DUSE_DOUBLE=True -DSKIP_FAST_MATH=True
           cmake --build . --parallel
           
           ARCHIVE=$PACKAGENAME--macos.zip

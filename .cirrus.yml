@@ -24,6 +24,7 @@ macos_arm64_develop_task:
     - find . -name "*.dylib"
     - mkdir -p ../plugins-macos-arm64
     - cp */*.dylib ../plugins-macos-arm64
+    - for f in ../plugins-macos-arm64; do otool -L "$f"; done
     
   plugins-macos-arm64_artifacts:
     path: plugins-macos-arm64/*.dylib
